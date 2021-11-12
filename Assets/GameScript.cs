@@ -12,7 +12,7 @@ public class GameScript : MonoBehaviour
     public Dropdown AxisSelector;
     public Text AxisText;
     public GameObject BaseCube;
-    private GameObject[,,] Cubes = new GameObject[9,9,9];
+    private GameObject[,,] Cells = new GameObject[9,9,9];
     private int lastAxis = 3;
 
     void Start()
@@ -38,14 +38,14 @@ public class GameScript : MonoBehaviour
 
         if (layer == -1)
         {
-            foreach (var it in Cubes)
+            foreach (var it in Cells)
                 it.SetActive(true);
             (lastAxis, AxisSelector.value) = (AxisSelector.value, 0);
             return;
         }
         else
         {
-            foreach (var it in Cubes)
+            foreach (var it in Cells)
                 it.SetActive(false);
             AxisSelector.value = lastAxis == 0 ? 3 : lastAxis;
         }
@@ -58,17 +58,17 @@ public class GameScript : MonoBehaviour
             case 1: //along x
                 for (int y = 0; y < 9; y++)
                 for (int z = 0; z < 9; z++)
-                    Cubes[layer, y, z].SetActive(true);
+                    Cells[layer, y, z].SetActive(true);
                 break;
             case 2: //along y
                 for (int x = 0; x < 9; x++)
                 for (int z = 0; z < 9; z++)
-                    Cubes[x, layer, z].SetActive(true);
+                    Cells[x, layer, z].SetActive(true);
                 break;
             case 3: //along z
                 for (int x = 0; x < 9; x++)
                 for (int y = 0; y < 9; y++)
-                    Cubes[x, y, layer].SetActive(true);
+                    Cells[x, y, layer].SetActive(true);
                 break;
             default:
                 throw new Exception("Invalid Axis selection: " + AxisSelector.value);
@@ -77,7 +77,7 @@ public class GameScript : MonoBehaviour
     
     private void ResetGame()
     {
-        foreach (var it in Cubes)
+        foreach (var it in Cells)
             Destroy(it);
         
         GameObject cube;
@@ -89,7 +89,7 @@ public class GameScript : MonoBehaviour
             var pos = new Vector3(x-4,y-4,z-4);
             cube = Instantiate(BaseCube, pos, Quaternion.identity);
             cube.name = $"Cube(layer={z},[{x},{y}])";
-            Cubes[x, y, z] = cube;
+            Cells[x, y, z] = cube;
         }
     }
 
