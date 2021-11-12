@@ -33,9 +33,9 @@ public class GameScript : MonoBehaviour
 
     private void SelectLayer(int layer)
     {
-        layer -= 1;
         AxisText.text = layer == -1 ? "Everything" : layer.ToString();
-        
+        layer -= 1;
+
         if (layer == -1)
         {
             foreach (var it in Cubes)
