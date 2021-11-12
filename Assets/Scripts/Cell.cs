@@ -7,8 +7,9 @@ using UnityEngine;
 public class Cell : MonoBehaviour
 {
     public TextMesh NumTextMesh => GetComponentInChildren<TextMesh>();
-
+    
     internal static bool anySelected;
+    internal bool locked = false;
     private sbyte num;
 
     public sbyte Value
@@ -39,10 +40,15 @@ public class Cell : MonoBehaviour
         {
             var mouseRay = camera.ScreenPointToRay(Input.mousePosition);
             var renderer = GetComponent<MeshRenderer>();
-            if (!Input.GetMouseButton(1) 
-                && Physics.Raycast(mouseRay, out RaycastHit hit) 
-                && hit.collider.gameObject.GetComponent<Cell>() is { } cell
-                && cell == this)
+
+            if (locked)
+            {
+                renderer.material = game.CorrectMaterial;
+            }
+            else if (!Input.GetMouseButton(1) 
+                      && Physics.Raycast(mouseRay, out RaycastHit hit) 
+                      && hit.collider.gameObject.GetComponent<Cell>() is { } cell
+                      && cell == this)
             {
                 renderer.material = game.HoverMaterial;
                 game.HoveredCell = this;
