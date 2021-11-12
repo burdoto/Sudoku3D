@@ -82,13 +82,13 @@ public class GameScript : MonoBehaviour
         
         GameObject cube;
         
-        for (int z = 0; z < 9; z++)
         for (int x = 0; x < 9; x++)
         for (int y = 0; y < 9; y++)
+        for (int z = 0; z < 9; z++)
         {
             var pos = new Vector3(x-4,y-4,z-4);
             cube = Instantiate(BaseCube, pos, Quaternion.identity);
-            cube.name = $"Cube(layer={z},[{x},{y}])";
+            cube.name = $"Cube[{x},{y},{z}]";
             Cells[x, y, z] = cube;
         }
     }
