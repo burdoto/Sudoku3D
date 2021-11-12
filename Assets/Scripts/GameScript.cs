@@ -107,7 +107,18 @@ public class GameScript : MonoBehaviour
 
     void Update()
     {
-        if (HoveredCell != null && Input.GetMouseButtonDown(0))
+        var camera = Camera.main;
+
+        if (camera == null)
+            return;
+        
+        var mouseRay = camera.ScreenPointToRay(Input.mousePosition);
+        if (!Input.GetMouseButton(1) 
+            && Physics.Raycast(mouseRay, out RaycastHit hit) 
+            && hit.collider.gameObject.GetComponent<Cell>() is { } cell
+            && cell == HoveredCell 
+            && HoveredCell != null
+            && Input.GetMouseButtonDown(0))
         {
             Cell.anySelected = true;
             SelectedCell = HoveredCell;
