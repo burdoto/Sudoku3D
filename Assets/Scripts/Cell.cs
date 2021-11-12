@@ -18,13 +18,16 @@ public class Cell : MonoBehaviour
         var transform = NumTextMesh.transform;
         var camera = Camera.main;
 
-        var game = camera!.GetComponent<GameScript>();
+        if (camera == null)
+            return;
+
+        var game = camera.GetComponent<GameScript>();
         if (game.LayerSlider.value == 0)
             NumTextMesh.text = "";
         else
         {
             NumTextMesh.text = num.ToString();
-            transform.LookAt(camera!.transform);
+            transform.LookAt(camera.transform);
             transform.rotation *= Quaternion.Euler(0,180,0);
         }
     }
