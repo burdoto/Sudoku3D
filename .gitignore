@@ -719,3 +719,6 @@ sysinfo.txt
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/unity,visualstudio,visualstudiocode,rider,csharp
+
+!Assembly-CSharp.csproj
+!Sudoku3D.sln
