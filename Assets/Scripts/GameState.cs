@@ -61,14 +61,14 @@ public class GameState : MonoBehaviour
         if (!Input.GetMouseButton(1)
             && Input.GetMouseButtonDown(0)
             && HoveredCell != null
-            && Game.LayerSlider.value == 0
             && HoveredCell.IsHovered())
         {
             Cell.anySelected = true;
             SelectedCell = HoveredCell;
             var renderer = HoveredCell.GetComponent<MeshRenderer>();
             renderer.material = SelectedMaterial;
-            Game.ViewPlanes(HoveredCell);
+            if (Game.LayerSlider.value == 0)
+                Game.ViewPlanes(HoveredCell);
         }
 
         // input
