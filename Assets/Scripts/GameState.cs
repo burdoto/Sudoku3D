@@ -1,13 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
 
 public class GameState : MonoBehaviour
 {
     public static GameState current;
-    
+
     public Material DefaultMaterial;
     public Material HoverMaterial;
     public Material SelectedMaterial;
@@ -15,25 +12,25 @@ public class GameState : MonoBehaviour
     public Material CorrectMaterial;
     public GameObject BaseCube;
 
-    internal GameScript Game;
-    
     internal Cell[,,] Cells = new Cell[9, 9, 9];
+
+    internal GameScript Game;
     internal Cell HoveredCell { get; set; }
-    [CanBeNull] 
-    internal Cell SelectedCell { get; set; }
-    
-    void Awake()
+
+    [CanBeNull] internal Cell SelectedCell { get; set; }
+
+    private void Awake()
     {
         Game = GetComponent<GameScript>();
         current = this;
     }
 
-    void Start()
+    private void Start()
     {
         ResetGame();
     }
 
-    void Update()
+    private void Update()
     {
         // selecting hovered cell
         if (!Input.GetMouseButton(1)
@@ -89,7 +86,8 @@ public class GameState : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Keypad9))
             {
                 SelectedCell.Value = 9;
-            } else if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            }
+            else if (Input.GetKeyDown(KeyCode.KeypadEnter))
             {
                 SelectedCell.TryLock();
                 SelectedCell = null;
@@ -97,7 +95,7 @@ public class GameState : MonoBehaviour
             }
         }
     }
-    
+
     internal void ResetGame()
     {
         foreach (var it in Cells)
@@ -108,7 +106,7 @@ public class GameState : MonoBehaviour
         for (sbyte y = 0; y < 9; y++)
         for (sbyte z = 0; z < 9; z++)
         {
-            var pos = new Vector3(x-4,y-4,z-4);
+            var pos = new Vector3(x - 4, y - 4, z - 4);
             var cube = Instantiate(BaseCube, pos, Quaternion.identity);
             var cell = Cells[x, y, z] = cube.GetComponent<Cell>();
             cell.X = x;

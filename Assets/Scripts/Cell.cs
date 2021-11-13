@@ -1,10 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public enum CellState
 {
@@ -16,14 +11,14 @@ public enum CellState
 
 public class Cell : MonoBehaviour
 {
-    public TextMesh NumTextMesh => GetComponentInChildren<TextMesh>();
-    
     internal static bool anySelected;
-    internal sbyte X,Y,Z;
-    internal CellState State;
-    [CanBeNull] 
-    internal Cell conflicting;
+
+    [CanBeNull] internal Cell conflicting;
+
     private sbyte num;
+    internal CellState State;
+    internal sbyte X, Y, Z;
+    public TextMesh NumTextMesh => GetComponentInChildren<TextMesh>();
 
     public sbyte Value
     {
@@ -31,7 +26,7 @@ public class Cell : MonoBehaviour
         set => NumTextMesh.text = (num = value).ToString();
     }
 
-    void Update()
+    private void Update()
     {
         var transform = NumTextMesh.transform;
         var camera = Camera.main;
@@ -41,15 +36,17 @@ public class Cell : MonoBehaviour
 
         var game = camera.GetComponent<GameScript>();
         if (num == 0)
+        {
             NumTextMesh.text = "";
+        }
         else
         {
             NumTextMesh.text = num.ToString();
             transform.LookAt(camera.transform);
-            transform.rotation *= Quaternion.Euler(0,180,0);
+            transform.rotation *= Quaternion.Euler(0, 180, 0);
         }
 
-        if (true)//!anySelected)
+        if (true) //!anySelected)
         {
             var mouseRay = camera.ScreenPointToRay(Input.mousePosition);
             var renderer = GetComponent<MeshRenderer>();
@@ -66,7 +63,11 @@ public class Cell : MonoBehaviour
             {
                 renderer.material = GameState.current.HoverMaterial;
                 GameState.current.HoveredCell = this;
-            } else renderer.material = GameState.current.DefaultMaterial;
+            }
+            else
+            {
+                renderer.material = GameState.current.DefaultMaterial;
+            }
         }
     }
 
@@ -76,12 +77,12 @@ public class Cell : MonoBehaviour
 
         if (camera == null)
             return false;
-        
+
         // selecting
         var mouseRay = camera.ScreenPointToRay(Input.mousePosition);
-        return Physics.Raycast(mouseRay, out RaycastHit hit)
-            && hit.collider.gameObject.GetComponent<Cell>() is { } cell
-            && cell == this;
+        return Physics.Raycast(mouseRay, out var hit)
+               && hit.collider.gameObject.GetComponent<Cell>() is { } cell
+               && cell == this;
     }
 
     // checks all axies cells for validity, then locks if possible
@@ -113,42 +114,33 @@ public class Cell : MonoBehaviour
         conflict = null;
         if (num == 0)
             return true;
-        
+
         // check lines
         for (sbyte x = 0; x < 9; x++)
         for (sbyte y = 0; y < 9; y++)
         for (sbyte z = 0; z < 9; z++)
-        {
             if (num == (conflict = GameState.current.Cells[x, Y, Z]).num && conflict != this)
-            {
                 return false;
-            }
             else if (num == (conflict = GameState.current.Cells[X, y, Z]).num && conflict != this)
-            {
                 return false;
-            }
-            else if (num == (conflict = GameState.current.Cells[X, Y, z]).num && conflict != this)
-            {
-                return false;
-            }
-        }
+            else if (num == (conflict = GameState.current.Cells[X, Y, z]).num && conflict != this) return false;
 
         // check blocks
-        int sqx = (X) / 3;
-        int sqy = (Y) / 3;
-        int sqz = (Z) / 3;
+        var sqx = X / 3;
+        var sqy = Y / 3;
+        var sqz = Z / 3;
 
         int sqxa = 3 * sqx, sqxb = 3 * (sqx + 1) - 1;
         int sqya = 3 * sqy, sqyb = 3 * (sqy + 1) - 1;
         int sqza = 3 * sqz, sqzb = 3 * (sqz + 1) - 1;
-        
+
         Debug.unityLogger.Log($"X={X} ; Y={Y} ; Z={Z}");
         Debug.unityLogger.Log($"sqx={sqx} ; sqxa={sqxa} ; sqxb={sqxb}");
         Debug.unityLogger.Log($"sqy={sqy} ; sqya={sqya} ; sqyb={sqyb}");
         Debug.unityLogger.Log($"sqz={sqz} ; sqza={sqza} ; sqzb={sqzb}");
 
-        for (int x = sqxa; x <= sqxb; x++)
-        for (int y = sqya; y <= sqyb; y++)
+        for (var x = sqxa; x <= sqxb; x++)
+        for (var y = sqya; y <= sqyb; y++)
         {
             conflict = GameState.current.Cells[x, y, Z];
             if (conflict != this && conflict.num != 0 && num == conflict.num)
@@ -157,9 +149,9 @@ public class Cell : MonoBehaviour
                 return false;
             }
         }
-        
-        for (int x = sqxa; x <= sqxb; x++)
-        for (int z = sqza; z <= sqzb; z++)
+
+        for (var x = sqxa; x <= sqxb; x++)
+        for (var z = sqza; z <= sqzb; z++)
         {
             conflict = GameState.current.Cells[x, Y, z];
             if (conflict != this && conflict.num != 0 && num == conflict.num)
@@ -168,9 +160,9 @@ public class Cell : MonoBehaviour
                 return false;
             }
         }
-        
-        for (int y = sqya; y <= sqyb; y++)
-        for (int z = sqza; z <= sqzb; z++)
+
+        for (var y = sqya; y <= sqyb; y++)
+        for (var z = sqza; z <= sqzb; z++)
         {
             conflict = GameState.current.Cells[X, y, z];
             if (conflict != this && conflict.num != 0 && num == conflict.num)
@@ -183,5 +175,8 @@ public class Cell : MonoBehaviour
         return true;
     }
 
-    public override string ToString() => $"Cell[{X},{Y},{Z},value={num}]";
+    public override string ToString()
+    {
+        return $"Cell[{X},{Y},{Z},value={num}]";
+    }
 }
