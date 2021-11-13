@@ -121,6 +121,8 @@ public class GameScript : MonoBehaviour
 
     internal void ResetView()
     {
+        State.SelectedCell = null;
+        Cell.anySelected = false;
         SelectAxis(lastAxis);
     }
 }
