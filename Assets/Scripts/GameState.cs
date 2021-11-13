@@ -35,13 +35,13 @@ public class GameState : MonoBehaviour
 
     private void Awake()
     {
+        Debug.unityLogger.Log("Savegame path: " + GetSavegamePath());
         Game = GetComponent<GameScript>();
         current = this;
     }
 
     private void Start()
     {
-        
         if (File.Exists(GetSavegamePath()))
         {
             CreateCubes();
@@ -206,6 +206,5 @@ public class GameState : MonoBehaviour
             }
     }
 
-    public static string GetSavegamePath() =>
-        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Sudoku3D.sav");
+    public static string GetSavegamePath() => Path.Combine(Application.persistentDataPath, "Sudoku3D.sav");
 }

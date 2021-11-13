@@ -28,7 +28,7 @@ public class GameScript : MonoBehaviour
     {
         // win condition
         foreach (var cell in GameState.current.Cells)
-            if (cell.Value == 0 || !cell.CheckValid(out _))
+            if (cell == null || cell.Value == 0 || !cell.CheckValid(out _))
                 return;
         WinText.gameObject.SetActive(true);
     }
