@@ -48,7 +48,6 @@ public class Cell : MonoBehaviour
 
         if (true) //!anySelected)
         {
-            var mouseRay = camera.ScreenPointToRay(Input.mousePosition);
             var renderer = GetComponent<MeshRenderer>();
 
             if (State == CellState.Faulty && !IsHovered())
