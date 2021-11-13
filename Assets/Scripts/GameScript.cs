@@ -44,8 +44,6 @@ public class GameScript : MonoBehaviour
 
     private void OnApplicationQuit() => State.Save();
 
-    private void OnApplicationPause(bool pauseStatus) => State.Save();
-
     internal void SelectAxis(int axis)
     {
         lastAxis = axis;
