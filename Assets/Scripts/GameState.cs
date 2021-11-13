@@ -35,17 +35,8 @@ public class GameState : MonoBehaviour
 
     void Update()
     {
-        var camera = Camera.main;
-
-        if (camera == null)
-            return;
-        
-        // selecting
-        var mouseRay = camera.ScreenPointToRay(Input.mousePosition);
+        // selecting hovered cell
         if (!Input.GetMouseButton(1)
-            && Physics.Raycast(mouseRay, out RaycastHit hit)
-            && hit.collider.gameObject.GetComponent<Cell>() is { } cell
-            && cell == HoveredCell
             && HoveredCell != null
             && Input.GetMouseButtonDown(0))
         {
@@ -53,7 +44,7 @@ public class GameState : MonoBehaviour
             SelectedCell = HoveredCell;
             var renderer = HoveredCell.GetComponent<MeshRenderer>();
             renderer.material = SelectedMaterial;
-            Game.ViewAxies(cell);
+            Game.ViewAxies(HoveredCell);
         }
 
         // input
@@ -62,51 +53,62 @@ public class GameState : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Keypad0))
             {
                 SelectedCell.Value = 0;
+                SelectedCell = null;
                 Cell.anySelected = false;
+                Game.ResetView();
             }
             else if (Input.GetKeyDown(KeyCode.Keypad1))
             {
                 SelectedCell.Value = 1;
+                SelectedCell = null;
                 Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad2))
             {
                 SelectedCell.Value = 2;
+                SelectedCell = null;
                 Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad3))
             {
                 SelectedCell.Value = 3;
+                SelectedCell = null;
                 Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad4))
             {
                 SelectedCell.Value = 4;
+                SelectedCell = null;
                 Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad5))
             {
                 SelectedCell.Value = 5;
+                SelectedCell = null;
                 Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad6))
             {
                 SelectedCell.Value = 6;
+                SelectedCell = null;
                 Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad7))
             {
                 SelectedCell.Value = 7;
+                SelectedCell = null;
                 Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad8))
             {
                 SelectedCell.Value = 8;
+                SelectedCell = null;
                 Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad9))
             {
                 SelectedCell.Value = 9;
+                SelectedCell = null;
                 Cell.anySelected = false;
             }
         }

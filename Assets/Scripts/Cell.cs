@@ -10,7 +10,7 @@ public class Cell : MonoBehaviour
     
     internal static bool anySelected;
     internal sbyte X,Y,Z;
-    internal bool locked = false;
+    internal bool locked = false, faulty = false;
     private sbyte num;
 
     public sbyte Value
@@ -42,19 +42,33 @@ public class Cell : MonoBehaviour
             var mouseRay = camera.ScreenPointToRay(Input.mousePosition);
             var renderer = GetComponent<MeshRenderer>();
 
-            if (locked)
+            if (faulty)
+            {
+                renderer.material = GameState.current.FaultyMaterial;
+            }
+            else if (locked)
             {
                 renderer.material = GameState.current.CorrectMaterial;
             }
-            else if (game.State.SelectedCell == this
-                    || !Input.GetMouseButton(1)
-                    && Physics.Raycast(mouseRay, out RaycastHit hit)
-                    && hit.collider.gameObject.GetComponent<Cell>() is { } cell
-                    && cell == this)
+            else if (game.State.SelectedCell == this || !Input.GetMouseButton(1) && IsHovered())
             {
                 renderer.material = GameState.current.HoverMaterial;
                 GameState.current.HoveredCell = this;
             } else renderer.material = GameState.current.DefaultMaterial;
         }
+    }
+
+    internal bool IsHovered()
+    {
+        var camera = Camera.main;
+
+        if (camera == null)
+            return false;
+        
+        // selecting
+        var mouseRay = camera.ScreenPointToRay(Input.mousePosition);
+        return Physics.Raycast(mouseRay, out RaycastHit hit)
+            && hit.collider.gameObject.GetComponent<Cell>() is { } cell
+            && cell == this;
     }
 }
