@@ -28,9 +28,10 @@ public class GameState : MonoBehaviour
     internal Cell[,,] Cells = new Cell[9, 9, 9];
 
     internal GameScript Game;
+    [CanBeNull]
     internal Cell HoveredCell { get; set; }
-
-    [CanBeNull] internal Cell SelectedCell { get; set; }
+    [CanBeNull] 
+    internal Cell SelectedCell { get; set; }
 
     private void Awake()
     {
@@ -59,6 +60,7 @@ public class GameState : MonoBehaviour
         // selecting hovered cell
         if (!Input.GetMouseButton(1)
             && HoveredCell != null
+            && HoveredCell.IsHovered()
             && Input.GetMouseButtonDown(0))
         {
             Cell.anySelected = true;
