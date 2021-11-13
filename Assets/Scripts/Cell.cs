@@ -129,9 +129,11 @@ public class Cell : MonoBehaviour
         if (num == 0)
             return true;
         
+        // check lines
         for (sbyte x = 0; x < 9; x++)
         for (sbyte y = 0; y < 9; y++)
         for (sbyte z = 0; z < 9; z++)
+        {
             if (num == (cell = GameState.current.Cells[x, Y, Z]).num && cell != this)
             {
                 return false;
@@ -144,6 +146,15 @@ public class Cell : MonoBehaviour
             {
                 return false;
             }
+        }
+
+        // check blocks
+        for (sbyte x = 0; x < 9; x++)
+        for (sbyte y = 0; y < 9; y++)
+        for (sbyte z = 0; z < 9; z++)
+        {
+            //todo
+        }
 
         return true;
     }
