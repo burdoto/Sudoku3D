@@ -49,6 +49,7 @@ public class GameScript : MonoBehaviour
     internal void SelectLayer(int layer)
     {
         AxisText.text = layer == -1 ? "Everything" : layer.ToString();
+        LayerSlider.value = layer;
         layer -= 1;
 
         if (layer == -1)
@@ -114,6 +115,6 @@ public class GameScript : MonoBehaviour
     {
         GameState.current.SelectedCell = null;
         Cell.anySelected = false;
-        SelectAxis(lastAxis);
+        SelectAxis(0);
     }
 }
