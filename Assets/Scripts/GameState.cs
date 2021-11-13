@@ -154,6 +154,8 @@ public class GameState : MonoBehaviour
 
     internal void PopulateGame(Difficulty difficulty)
     {
+        ResetGame();
+        
         // obtained via: 17 * root(3, 17)
         // 17 is minimum hints for 2d sudoku
         const int minFields = 44; // min visible fields
