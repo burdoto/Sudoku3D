@@ -137,10 +137,10 @@ public class Cell : MonoBehaviour
         int sqya = 3 * sqy, sqyb = 3 * (sqy + 1) - 1;
         int sqza = 3 * sqz, sqzb = 3 * (sqz + 1) - 1;
 
-        Debug.unityLogger.Log($"X={X} ; Y={Y} ; Z={Z}");
-        Debug.unityLogger.Log($"sqx={sqx} ; sqxa={sqxa} ; sqxb={sqxb}");
-        Debug.unityLogger.Log($"sqy={sqy} ; sqya={sqya} ; sqyb={sqyb}");
-        Debug.unityLogger.Log($"sqz={sqz} ; sqza={sqza} ; sqzb={sqzb}");
+        //Debug.unityLogger.Log($"X={X} ; Y={Y} ; Z={Z}");
+        //Debug.unityLogger.Log($"sqx={sqx} ; sqxa={sqxa} ; sqxb={sqxb}");
+        //Debug.unityLogger.Log($"sqy={sqy} ; sqya={sqya} ; sqyb={sqyb}");
+        //Debug.unityLogger.Log($"sqz={sqz} ; sqza={sqza} ; sqzb={sqzb}");
 
         for (var x = sqxa; x <= sqxb; x++)
         for (var y = sqya; y <= sqyb; y++)
