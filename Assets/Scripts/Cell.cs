@@ -86,7 +86,7 @@ public class Cell : MonoBehaviour
     }
 
     // checks all axies cells for validity, then locks if possible
-    internal void TryLock()
+    internal void TryLock(CellState inState = CellState.Locked)
     {
         if (num == 0)
             return;
@@ -104,7 +104,7 @@ public class Cell : MonoBehaviour
         {
             if (conflicting != null && conflicting.CheckValid(out _))
                 (conflicting.State, conflicting) = (CellState.Normal, null);
-            State = CellState.Locked;
+            State = inState;
         }
     }
 

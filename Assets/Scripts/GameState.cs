@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Text;
 using JetBrains.Annotations;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -38,8 +40,18 @@ public class GameState : MonoBehaviour
 
     private void Start()
     {
-        ResetGame();
-        PopulateGame();
+        
+        if (File.Exists(GetSavegamePath()))
+        {
+            CreateCubes();
+            Load();
+        }
+        else
+        {
+            ResetGame();
+            CreateCubes();
+            PopulateGame();
+        }
     }
 
     private void Update()
@@ -110,12 +122,17 @@ public class GameState : MonoBehaviour
 
     internal void ResetGame()
     {
+        File.Delete(GetSavegamePath());
+        
         Game.WinText.gameObject.SetActive(false);
         
         foreach (var it in Cells)
             if (it != null && it.gameObject is { } go)
                 Destroy(go);
+    }
 
+    private void CreateCubes()
+    {
         for (sbyte x = 0; x < 9; x++)
         for (sbyte y = 0; y < 9; y++)
         for (sbyte z = 0; z < 9; z++)
@@ -134,8 +151,6 @@ public class GameState : MonoBehaviour
 
     internal void PopulateGame(Difficulty difficulty)
     {
-        ResetGame();
-        
         // obtained via: 17 * root(3, 17)
         // 17 is minimum hints for 2d sudoku
         const int minFields = 44; // min visible fields
@@ -151,4 +166,41 @@ public class GameState : MonoBehaviour
             cell.State = CellState.Predefined;
         }
     }
+
+    internal void Load()
+    {
+        using (var stream = new StreamReader(GetSavegamePath(), Encoding.ASCII))
+            for (sbyte x = 0; x < 9; x++)
+            for (sbyte y = 0; y < 9; y++)
+            {
+                for (sbyte z = 0; z < 9; z++)
+                {
+                    var cell = Cells[x, y, z];
+                    cell.Value = (sbyte)int.Parse(((char)stream.Read()).ToString());
+                    cell.TryLock(CellState.Predefined);
+                }
+
+                if (stream.Read() != '\n')
+                {
+                    PopulateGame();
+                    return;
+                }
+            }
+    }
+
+    internal void Save()
+    {
+        using (var stream = new StreamWriter(GetSavegamePath(), false, Encoding.ASCII))
+            for (sbyte x = 0; x < 9; x++)
+            for (sbyte y = 0; y < 9; y++)
+            {
+                for (sbyte z = 0; z < 9; z++)
+                    stream.Write(Cells[x, y, z].Value);
+
+                stream.Write('\n');
+            }
+    }
+
+    public static string GetSavegamePath() =>
+        Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Sudoku3D.sav");
 }
