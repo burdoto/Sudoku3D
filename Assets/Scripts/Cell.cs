@@ -58,10 +58,14 @@ public class Cell : MonoBehaviour
             {
                 renderer.material = GameState.current.CorrectMaterial;
             }
-            else if (game.State.SelectedCell == this || !Input.GetMouseButton(1) && IsHovered())
+            else if (!Input.GetMouseButton(1) && IsHovered())
             {
                 renderer.material = GameState.current.HoverMaterial;
                 GameState.current.HoveredCell = this;
+            }
+            else if (game.State.SelectedCell == this)
+            {
+                renderer.material = GameState.current.SelectedMaterial;
             }
             else
             {
