@@ -53,61 +53,45 @@ public class GameState : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Keypad0))
             {
                 SelectedCell.Value = 0;
-                SelectedCell = null;
-                Cell.anySelected = false;
-                Game.ResetView();
             }
             else if (Input.GetKeyDown(KeyCode.Keypad1))
             {
                 SelectedCell.Value = 1;
-                SelectedCell = null;
-                Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad2))
             {
                 SelectedCell.Value = 2;
-                SelectedCell = null;
-                Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad3))
             {
                 SelectedCell.Value = 3;
-                SelectedCell = null;
-                Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad4))
             {
                 SelectedCell.Value = 4;
-                SelectedCell = null;
-                Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad5))
             {
                 SelectedCell.Value = 5;
-                SelectedCell = null;
-                Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad6))
             {
                 SelectedCell.Value = 6;
-                SelectedCell = null;
-                Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad7))
             {
                 SelectedCell.Value = 7;
-                SelectedCell = null;
-                Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad8))
             {
                 SelectedCell.Value = 8;
-                SelectedCell = null;
-                Cell.anySelected = false;
             }
             else if (Input.GetKeyDown(KeyCode.Keypad9))
             {
                 SelectedCell.Value = 9;
+            } else if (Input.GetKeyDown(KeyCode.KeypadEnter))
+            {
+                SelectedCell.TryLock();
                 SelectedCell = null;
                 Cell.anySelected = false;
             }
@@ -126,8 +110,8 @@ public class GameState : MonoBehaviour
         {
             var pos = new Vector3(x-4,y-4,z-4);
             var cube = Instantiate(BaseCube, pos, Quaternion.identity);
-            cube.name = $"Cube[{x},{y},{z}]";
             var cell = Cells[x, y, z] = cube.GetComponent<Cell>();
+            cube.name = cell.ToString();
             cell.X = x;
             cell.Y = y;
             cell.Z = z;

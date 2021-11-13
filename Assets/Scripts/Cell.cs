@@ -11,6 +11,8 @@ public class Cell : MonoBehaviour
     internal static bool anySelected;
     internal sbyte X,Y,Z;
     internal bool locked = false, faulty = false;
+    [CanBeNull] 
+    internal Cell conflicting;
     private sbyte num;
 
     public sbyte Value
@@ -42,7 +44,7 @@ public class Cell : MonoBehaviour
             var mouseRay = camera.ScreenPointToRay(Input.mousePosition);
             var renderer = GetComponent<MeshRenderer>();
 
-            if (faulty)
+            if (faulty && !IsHovered())
             {
                 renderer.material = GameState.current.FaultyMaterial;
             }
@@ -71,4 +73,71 @@ public class Cell : MonoBehaviour
             && hit.collider.gameObject.GetComponent<Cell>() is { } cell
             && cell == this;
     }
+
+    // checks all axies cells for validity, then locks if possible
+    internal void TryLock()
+    {
+        if (num == 0)
+            return;
+        Cell cell;
+        faulty = false;
+        /*for (sbyte x = 0; x < 9; x++)
+        for (sbyte y = 0; y < 9; y++)
+        for (sbyte z = 0; z < 9; z++)
+        {
+            if (!(cell = GameState.current.Cells[x, Y, Z]).CheckValid())
+            {
+                cell.faulty = faulty = true;
+            }
+            if (!(cell = GameState.current.Cells[X, y, Z]).CheckValid())
+            {
+                cell.faulty = faulty = true;
+            }
+            if (!(cell = GameState.current.Cells[X, Y, z]).CheckValid())
+            {
+                cell.faulty = faulty = true;
+            }
+        }*/
+
+        if (!CheckValid(out cell) && cell != null)
+        {
+            cell.faulty = faulty = true;
+            (cell.conflicting, conflicting) = (this, cell);
+        }
+
+        if (!faulty)
+        {
+            if (conflicting != null && conflicting.CheckValid(out _))
+                (conflicting.faulty, conflicting) = (false, null);
+            locked = true;
+        }
+    }
+
+    // checks whether ONLY THIS cell is valid
+    internal bool CheckValid([CanBeNull] out Cell cell)
+    {
+        cell = null;
+        if (num == 0)
+            return true;
+        
+        for (sbyte x = 0; x < 9; x++)
+        for (sbyte y = 0; y < 9; y++)
+        for (sbyte z = 0; z < 9; z++)
+            if (num == (cell = GameState.current.Cells[x, Y, Z]).num && cell != this)
+            {
+                return false;
+            }
+            else if (num == (cell = GameState.current.Cells[X, y, Z]).num && cell != this)
+            {
+                return false;
+            }
+            else if (num == (cell = GameState.current.Cells[X, Y, z]).num && cell != this)
+            {
+                return false;
+            }
+
+        return true;
+    }
+
+    public override string ToString() => $"Cell[{X},{Y},{Z},value={num}]";
 }
