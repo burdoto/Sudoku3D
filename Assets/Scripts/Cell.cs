@@ -63,7 +63,7 @@ public class Cell : MonoBehaviour
                 renderer.material = GameState.current.HoverMaterial;
                 GameState.current.HoveredCell = this;
             }
-            else if (game.State.SelectedCell == this)
+            else if (GameState.current.SelectedCell == this)
             {
                 renderer.material = GameState.current.SelectedMaterial;
             }
