@@ -1514,8 +1514,8 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
-  - component: {fileID: 963194229}
   - component: {fileID: 963194231}
+  - component: {fileID: 963194229}
   - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
@@ -1602,7 +1602,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e9fafd291ca61f42aa340846365ba56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StartButton: {fileID: 0}
   ResetViewButton: {fileID: 623479937}
   NewGameEasyButton: {fileID: 734763447}
   NewGameMediumButton: {fileID: 1413450628}
