@@ -46,10 +46,11 @@ public class Cell : MonoBehaviour
             {
                 renderer.material = GameState.current.CorrectMaterial;
             }
-            else if (!Input.GetMouseButton(1) 
-                      && Physics.Raycast(mouseRay, out RaycastHit hit) 
-                      && hit.collider.gameObject.GetComponent<Cell>() is { } cell
-                      && cell == this)
+            else if (game.State.SelectedCell == this
+                    || !Input.GetMouseButton(1)
+                    && Physics.Raycast(mouseRay, out RaycastHit hit)
+                    && hit.collider.gameObject.GetComponent<Cell>() is { } cell
+                    && cell == this)
             {
                 renderer.material = GameState.current.HoverMaterial;
                 GameState.current.HoveredCell = this;
