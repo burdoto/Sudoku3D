@@ -40,11 +40,12 @@ public class GameState : MonoBehaviour
         if (camera == null)
             return;
         
+        // selecting
         var mouseRay = camera.ScreenPointToRay(Input.mousePosition);
-        if (!Input.GetMouseButton(1) 
-            && Physics.Raycast(mouseRay, out RaycastHit hit) 
+        if (!Input.GetMouseButton(1)
+            && Physics.Raycast(mouseRay, out RaycastHit hit)
             && hit.collider.gameObject.GetComponent<Cell>() is { } cell
-            && cell == HoveredCell 
+            && cell == HoveredCell
             && HoveredCell != null
             && Input.GetMouseButtonDown(0))
         {
@@ -52,8 +53,10 @@ public class GameState : MonoBehaviour
             SelectedCell = HoveredCell;
             var renderer = HoveredCell.GetComponent<MeshRenderer>();
             renderer.material = SelectedMaterial;
+            Game.ViewAxies(cell);
         }
 
+        // input
         if (Cell.anySelected && SelectedCell != null)
         {
             if (Input.GetKeyDown(KeyCode.Keypad0))
@@ -112,18 +115,20 @@ public class GameState : MonoBehaviour
     internal void ResetGame()
     {
         foreach (var it in Cells)
-            Destroy(it);
-        
-        GameObject cube;
-        
-        for (int x = 0; x < 9; x++)
-        for (int y = 0; y < 9; y++)
-        for (int z = 0; z < 9; z++)
+            if (it != null && it.gameObject is { } go)
+                Destroy(go);
+
+        for (sbyte x = 0; x < 9; x++)
+        for (sbyte y = 0; y < 9; y++)
+        for (sbyte z = 0; z < 9; z++)
         {
             var pos = new Vector3(x-4,y-4,z-4);
-            cube = Instantiate(BaseCube, pos, Quaternion.identity);
+            var cube = Instantiate(BaseCube, pos, Quaternion.identity);
             cube.name = $"Cube[{x},{y},{z}]";
-            Cells[x, y, z] = cube.GetComponent<Cell>();
+            var cell = Cells[x, y, z] = cube.GetComponent<Cell>();
+            cell.X = x;
+            cell.Y = y;
+            cell.Z = z;
         }
     }
 }

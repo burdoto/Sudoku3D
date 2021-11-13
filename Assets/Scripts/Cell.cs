@@ -9,6 +9,7 @@ public class Cell : MonoBehaviour
     public TextMesh NumTextMesh => GetComponentInChildren<TextMesh>();
     
     internal static bool anySelected;
+    internal sbyte X,Y,Z;
     internal bool locked = false;
     private sbyte num;
 
@@ -36,7 +37,7 @@ public class Cell : MonoBehaviour
             transform.rotation *= Quaternion.Euler(0,180,0);
         }
 
-        if (!anySelected)
+        if (true)//!anySelected)
         {
             var mouseRay = camera.ScreenPointToRay(Input.mousePosition);
             var renderer = GetComponent<MeshRenderer>();
