@@ -17,9 +17,13 @@ public class GameScript : MonoBehaviour
 
     internal GameState State;
 
-    private void Start()
+    private void Awake()
     {
         State = GetComponent<GameState>();
+    }
+
+    private void Start()
+    {
         StartButton.onClick.AddListener(State.ResetGame);
         ResetViewButton.onClick.AddListener(ResetView);
         NewGameEasyButton.onClick.AddListener(() => State.PopulateGame(Difficulty.Easy));
