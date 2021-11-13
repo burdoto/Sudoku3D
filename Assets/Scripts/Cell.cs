@@ -3,6 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
+public enum CellState
+{
+    Normal,
+    Locked,
+    Faulty
+}
 
 public class Cell : MonoBehaviour
 {
@@ -10,7 +18,11 @@ public class Cell : MonoBehaviour
     
     internal static bool anySelected;
     internal sbyte X,Y,Z;
-    internal bool locked = false, faulty = false;
+    internal CellState State;
+    [Obsolete]
+    internal bool locked => State == CellState.Locked;
+    [Obsolete]
+    internal bool faulty => State == CellState.Faulty;
     [CanBeNull] 
     internal Cell conflicting;
     private sbyte num;
@@ -80,7 +92,7 @@ public class Cell : MonoBehaviour
         if (num == 0)
             return;
         Cell cell;
-        faulty = false;
+        State = CellState.Normal;
         /*for (sbyte x = 0; x < 9; x++)
         for (sbyte y = 0; y < 9; y++)
         for (sbyte z = 0; z < 9; z++)
@@ -101,15 +113,15 @@ public class Cell : MonoBehaviour
 
         if (!CheckValid(out cell) && cell != null)
         {
-            cell.faulty = faulty = true;
+            cell.State = State = CellState.Faulty;
             (cell.conflicting, conflicting) = (this, cell);
         }
 
         if (!faulty)
         {
             if (conflicting != null && conflicting.CheckValid(out _))
-                (conflicting.faulty, conflicting) = (false, null);
-            locked = true;
+                (conflicting.State, conflicting) = (CellState.Normal, null);
+            State = CellState.Locked;
         }
     }
 
