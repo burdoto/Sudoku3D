@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -90,26 +91,10 @@ public class Cell : MonoBehaviour
             return;
         Cell cell;
         State = CellState.Normal;
-        /*for (sbyte x = 0; x < 9; x++)
-        for (sbyte y = 0; y < 9; y++)
-        for (sbyte z = 0; z < 9; z++)
-        {
-            if (!(cell = GameState.current.Cells[x, Y, Z]).CheckValid())
-            {
-                cell.faulty = faulty = true;
-            }
-            if (!(cell = GameState.current.Cells[X, y, Z]).CheckValid())
-            {
-                cell.faulty = faulty = true;
-            }
-            if (!(cell = GameState.current.Cells[X, Y, z]).CheckValid())
-            {
-                cell.faulty = faulty = true;
-            }
-        }*/
 
         if (!CheckValid(out cell) && cell != null)
         {
+            //Debug.unityLogger.Log($"Conflict detected: cell {this} and {cell}");
             cell.State = State = CellState.Faulty;
             (cell.conflicting, conflicting) = (this, cell);
         }
@@ -123,9 +108,9 @@ public class Cell : MonoBehaviour
     }
 
     // checks whether ONLY THIS cell is valid
-    internal bool CheckValid([CanBeNull] out Cell cell)
+    internal bool CheckValid([CanBeNull] out Cell conflict)
     {
-        cell = null;
+        conflict = null;
         if (num == 0)
             return true;
         
@@ -134,26 +119,65 @@ public class Cell : MonoBehaviour
         for (sbyte y = 0; y < 9; y++)
         for (sbyte z = 0; z < 9; z++)
         {
-            if (num == (cell = GameState.current.Cells[x, Y, Z]).num && cell != this)
+            if (num == (conflict = GameState.current.Cells[x, Y, Z]).num && conflict != this)
             {
                 return false;
             }
-            else if (num == (cell = GameState.current.Cells[X, y, Z]).num && cell != this)
+            else if (num == (conflict = GameState.current.Cells[X, y, Z]).num && conflict != this)
             {
                 return false;
             }
-            else if (num == (cell = GameState.current.Cells[X, Y, z]).num && cell != this)
+            else if (num == (conflict = GameState.current.Cells[X, Y, z]).num && conflict != this)
             {
                 return false;
             }
         }
 
         // check blocks
-        for (sbyte x = 0; x < 9; x++)
-        for (sbyte y = 0; y < 9; y++)
-        for (sbyte z = 0; z < 9; z++)
+        int sqx = (X) / 3;
+        int sqy = (Y) / 3;
+        int sqz = (Z) / 3;
+
+        int sqxa = 3 * sqx, sqxb = 3 * (sqx + 1) - 1;
+        int sqya = 3 * sqy, sqyb = 3 * (sqy + 1) - 1;
+        int sqza = 3 * sqz, sqzb = 3 * (sqz + 1) - 1;
+        
+        Debug.unityLogger.Log($"X={X} ; Y={Y} ; Z={Z}");
+        Debug.unityLogger.Log($"sqx={sqx} ; sqxa={sqxa} ; sqxb={sqxb}");
+        Debug.unityLogger.Log($"sqy={sqy} ; sqya={sqya} ; sqyb={sqyb}");
+        Debug.unityLogger.Log($"sqz={sqz} ; sqza={sqza} ; sqzb={sqzb}");
+
+        for (int x = sqxa; x <= sqxb; x++)
+        for (int y = sqya; y <= sqyb; y++)
         {
-            //todo
+            conflict = GameState.current.Cells[x, y, Z];
+            if (conflict != this && conflict.num != 0 && num == conflict.num)
+            {
+                Debug.unityLogger.Log($"Conflict detected when checking x={x};y={y}: cell {this} and {conflict}");
+                return false;
+            }
+        }
+        
+        for (int x = sqxa; x <= sqxb; x++)
+        for (int z = sqza; z <= sqzb; z++)
+        {
+            conflict = GameState.current.Cells[x, Y, z];
+            if (conflict != this && conflict.num != 0 && num == conflict.num)
+            {
+                Debug.unityLogger.Log($"Conflict detected when checking x={x};z={z}: cell {this} and {conflict}");
+                return false;
+            }
+        }
+        
+        for (int y = sqya; y <= sqyb; y++)
+        for (int z = sqza; z <= sqzb; z++)
+        {
+            conflict = GameState.current.Cells[X, y, z];
+            if (conflict != this && conflict.num != 0 && num == conflict.num)
+            {
+                Debug.unityLogger.Log($"Conflict detected when checking y={y};z={z}: cell {this} and {conflict}");
+                return false;
+            }
         }
 
         return true;

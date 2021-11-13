@@ -111,10 +111,10 @@ public class GameState : MonoBehaviour
             var pos = new Vector3(x-4,y-4,z-4);
             var cube = Instantiate(BaseCube, pos, Quaternion.identity);
             var cell = Cells[x, y, z] = cube.GetComponent<Cell>();
-            cube.name = cell.ToString();
             cell.X = x;
             cell.Y = y;
             cell.Z = z;
+            cube.name = cell.ToString();
         }
     }
 }
