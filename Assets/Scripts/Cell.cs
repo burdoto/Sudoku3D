@@ -8,8 +8,9 @@ using Random = UnityEngine.Random;
 public enum CellState
 {
     Normal,
+    Faulty,
     Locked,
-    Faulty
+    Predefined
 }
 
 public class Cell : MonoBehaviour
@@ -19,10 +20,6 @@ public class Cell : MonoBehaviour
     internal static bool anySelected;
     internal sbyte X,Y,Z;
     internal CellState State;
-    [Obsolete]
-    internal bool locked => State == CellState.Locked;
-    [Obsolete]
-    internal bool faulty => State == CellState.Faulty;
     [CanBeNull] 
     internal Cell conflicting;
     private sbyte num;
@@ -56,11 +53,11 @@ public class Cell : MonoBehaviour
             var mouseRay = camera.ScreenPointToRay(Input.mousePosition);
             var renderer = GetComponent<MeshRenderer>();
 
-            if (faulty && !IsHovered())
+            if (State == CellState.Faulty && !IsHovered())
             {
                 renderer.material = GameState.current.FaultyMaterial;
             }
-            else if (locked)
+            else if (State == CellState.Predefined || State == CellState.Locked)
             {
                 renderer.material = GameState.current.CorrectMaterial;
             }
@@ -117,7 +114,7 @@ public class Cell : MonoBehaviour
             (cell.conflicting, conflicting) = (this, cell);
         }
 
-        if (!faulty)
+        if (State != CellState.Faulty)
         {
             if (conflicting != null && conflicting.CheckValid(out _))
                 (conflicting.State, conflicting) = (CellState.Normal, null);
