@@ -28,6 +28,7 @@ public class GameState : MonoBehaviour
     private void Start()
     {
         ResetGame();
+        PopulateGame();
     }
 
     private void Update()
@@ -114,5 +115,17 @@ public class GameState : MonoBehaviour
             cell.Z = z;
             cube.name = cell.ToString();
         }
+    }
+
+    internal void PopulateGame()
+    {
+        sbyte[,,] yield = new sbyte[9, 9, 9];
+        
+        // todo
+        
+        for (sbyte x = 0; x < 9; x++)
+        for (sbyte y = 0; y < 9; y++)
+        for (sbyte z = 0; z < 9; z++)
+            Cells[x, y, z].Value = yield[x, y, z];
     }
 }

@@ -6,6 +6,7 @@ public class GameScript : MonoBehaviour
 {
     public Button StartButton;
     public Button ResetViewButton;
+    public Button PopulateGameButton;
     public Slider LayerSlider;
     public Dropdown AxisSelector;
     public Text AxisText;
@@ -18,6 +19,7 @@ public class GameScript : MonoBehaviour
         State = GetComponent<GameState>();
         StartButton.onClick.AddListener(State.ResetGame);
         ResetViewButton.onClick.AddListener(ResetView);
+        PopulateGameButton.onClick.AddListener(State.PopulateGame);
         LayerSlider.onValueChanged.AddListener(SelectLayer);
         AxisSelector.onValueChanged.AddListener(SelectAxis);
     }
