@@ -1,5 +1,16 @@
+using System;
 using JetBrains.Annotations;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
+public enum Difficulty
+{
+    [Obsolete]
+    Impossible,
+    Hard,
+    Medium,
+    Easy
+}
 
 public class GameState : MonoBehaviour
 {
@@ -99,6 +110,8 @@ public class GameState : MonoBehaviour
 
     internal void ResetGame()
     {
+        Game.WinText.gameObject.SetActive(false);
+        
         foreach (var it in Cells)
             if (it != null && it.gameObject is { } go)
                 Destroy(go);
@@ -117,15 +130,25 @@ public class GameState : MonoBehaviour
         }
     }
 
-    internal void PopulateGame()
+    internal void PopulateGame() => PopulateGame(Difficulty.Medium);
+
+    internal void PopulateGame(Difficulty difficulty)
     {
-        sbyte[,,] yield = new sbyte[9, 9, 9];
+        ResetGame();
         
-        // todo
+        // obtained via: 17 * root(3, 17)
+        // 17 is minimum hints for 2d sudoku
+        const int minFields = 44; // min visible fields
+        int limit = minFields * (int) difficulty;
         
-        for (sbyte x = 0; x < 9; x++)
-        for (sbyte y = 0; y < 9; y++)
-        for (sbyte z = 0; z < 9; z++)
-            Cells[x, y, z].Value = yield[x, y, z];
+        for (sbyte i = 0; i < 9; i++)
+            Cells[i, i, i].Value = (sbyte)(i+1);
+        for (int i = 0; i < limit; i++)
+        {
+            Cell cell = Cells[Random.Range(0, 9), Random.Range(0, 9), Random.Range(0, 9)];
+            do cell.Value = (sbyte)Random.Range(1, 10);
+            while (!cell.CheckValid(out _));
+            cell.State = CellState.Predefined;
+        }
     }
 }

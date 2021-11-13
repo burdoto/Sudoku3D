@@ -6,10 +6,13 @@ public class GameScript : MonoBehaviour
 {
     public Button StartButton;
     public Button ResetViewButton;
-    public Button PopulateGameButton;
+    public Button NewGameEasyButton;
+    public Button NewGameMediumButton;
+    public Button NewGameHardButton;
     public Slider LayerSlider;
     public Dropdown AxisSelector;
     public Text AxisText;
+    public Text WinText;
     private int lastAxis = 3;
 
     internal GameState State;
@@ -19,13 +22,20 @@ public class GameScript : MonoBehaviour
         State = GetComponent<GameState>();
         StartButton.onClick.AddListener(State.ResetGame);
         ResetViewButton.onClick.AddListener(ResetView);
-        PopulateGameButton.onClick.AddListener(State.PopulateGame);
+        NewGameEasyButton.onClick.AddListener(() => State.PopulateGame(Difficulty.Easy));
+        NewGameMediumButton.onClick.AddListener(() => State.PopulateGame(Difficulty.Medium));
+        NewGameHardButton.onClick.AddListener(() => State.PopulateGame(Difficulty.Hard));
         LayerSlider.onValueChanged.AddListener(SelectLayer);
         AxisSelector.onValueChanged.AddListener(SelectAxis);
     }
 
     private void Update()
     {
+        // win condition
+        foreach (var cell in State.Cells)
+            if (cell.Value == 0 || !cell.CheckValid(out _))
+                return;
+        WinText.gameObject.SetActive(true);
     }
 
     internal void SelectAxis(int axis)

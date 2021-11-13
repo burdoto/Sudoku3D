@@ -1,8 +1,14 @@
+using System;
 using UnityEngine;
 
 public class CameraScript : MonoBehaviour
 {
     public float Multiplier = 2.5f;
+
+    private void Start()
+    {
+        transform.LookAt(Vector3.zero);
+    }
 
     private void Update()
     {
