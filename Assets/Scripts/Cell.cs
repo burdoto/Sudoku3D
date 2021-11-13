@@ -43,16 +43,16 @@ public class Cell : MonoBehaviour
 
             if (locked)
             {
-                renderer.material = game.CorrectMaterial;
+                renderer.material = GameState.current.CorrectMaterial;
             }
             else if (!Input.GetMouseButton(1) 
                       && Physics.Raycast(mouseRay, out RaycastHit hit) 
                       && hit.collider.gameObject.GetComponent<Cell>() is { } cell
                       && cell == this)
             {
-                renderer.material = game.HoverMaterial;
-                game.HoveredCell = this;
-            } else renderer.material = game.DefaultMaterial;
+                renderer.material = GameState.current.HoverMaterial;
+                GameState.current.HoveredCell = this;
+            } else renderer.material = GameState.current.DefaultMaterial;
         }
     }
 }

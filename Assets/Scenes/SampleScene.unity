@@ -1390,6 +1390,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194231}
   - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
@@ -1476,16 +1477,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e9fafd291ca61f42aa340846365ba56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DefaultMaterial: {fileID: 2100000, guid: 108b7548fe42d4341a6be99df875cf08, type: 2}
-  HoverMaterial: {fileID: 2100000, guid: 85691b2c913033f4aa66fa91f1847ef9, type: 2}
-  SelectedMaterial: {fileID: 2100000, guid: b18e8efb70e01f6439d9f3d5953013c3, type: 2}
-  FaultyMaterial: {fileID: 2100000, guid: 462d0addec5dc9e469b48ba825cd3232, type: 2}
-  CorrectMaterial: {fileID: 2100000, guid: 97d306163d94e224da97cfce3debb2f2, type: 2}
   StartButton: {fileID: 321066460}
   LayerSlider: {fileID: 358249566}
   AxisSelector: {fileID: 1194658203}
   AxisText: {fileID: 470373259}
-  BaseCube: {fileID: 5039445960694145224, guid: 95f351075ad46d84e91c92e1b2838091, type: 3}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1499,6 +1494,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Multiplier: 2.5
+--- !u!114 &963194231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 191c437e82f16b54598e8e90a0ef1b66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultMaterial: {fileID: 2100000, guid: 108b7548fe42d4341a6be99df875cf08, type: 2}
+  HoverMaterial: {fileID: 2100000, guid: 85691b2c913033f4aa66fa91f1847ef9, type: 2}
+  SelectedMaterial: {fileID: 2100000, guid: b18e8efb70e01f6439d9f3d5953013c3, type: 2}
+  FaultyMaterial: {fileID: 2100000, guid: 462d0addec5dc9e469b48ba825cd3232, type: 2}
+  CorrectMaterial: {fileID: 2100000, guid: 97d306163d94e224da97cfce3debb2f2, type: 2}
+  BaseCube: {fileID: 5039445960694145224, guid: 95f351075ad46d84e91c92e1b2838091, type: 3}
 --- !u!1 &967294826
 GameObject:
   m_ObjectHideFlags: 0
