@@ -31,7 +31,7 @@ public class GInput : MonoBehaviour
                 IsHold = touches[0].phase != TouchPhase.Ended && touches[0].phase != TouchPhase.Canceled;
             }
             // move
-            CursorDelta = touches[0].deltaPosition * 0.75f;
+            CursorDelta = touches[0].deltaPosition * 0.2f;
         } else if (touches.Length == 0)
         {
             CursorDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
