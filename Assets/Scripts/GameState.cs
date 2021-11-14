@@ -160,6 +160,7 @@ public class GameState : MonoBehaviour
 
     internal void PopulateGame(Difficulty difficulty)
     {
+#pragma warning disable 162
         if (DebugCheck.PrintPopulate)
             Debug.unityLogger.Log("PopulateGame started");
         
@@ -207,6 +208,7 @@ public class GameState : MonoBehaviour
         
         if (DebugCheck.PrintPopulate)
             Debug.unityLogger.Log("PopulateGame finished");
+#pragma warning restore 162
     }
 
     internal void Load()

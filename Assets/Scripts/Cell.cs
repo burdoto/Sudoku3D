@@ -114,6 +114,7 @@ public class Cell : MonoBehaviour
     // checks whether ONLY THIS cell is valid
     internal bool CheckValid([CanBeNull] out Cell conflict)
     {
+#pragma warning disable 162
         conflict = null;
         if (num == 0)
             return true;
@@ -182,6 +183,7 @@ public class Cell : MonoBehaviour
         }
 
         return true;
+#pragma warning restore 162
     }
 
     public override string ToString()
