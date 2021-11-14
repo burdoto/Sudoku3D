@@ -7,11 +7,9 @@ using Random = UnityEngine.Random;
 
 public enum Difficulty
 {
-    [Obsolete]
-    Impossible,
-    Hard,
-    Medium,
-    Easy
+    Hard = 2,
+    Medium = 4,
+    Easy = 5
 }
 
 public static class DebugCheck
