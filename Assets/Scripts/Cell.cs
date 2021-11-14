@@ -148,7 +148,7 @@ public class Cell : MonoBehaviour
             conflict = GameState.current.Cells[x, y, Z];
             if (conflict != this && conflict.num != 0 && num == conflict.num)
             {
-                Debug.unityLogger.Log($"Conflict detected when checking x={x};y={y}: cell {this} and {conflict}");
+                //Debug.unityLogger.Log($"Conflict detected when checking x={x};y={y}: cell {this} and {conflict}");
                 return false;
             }
         }
@@ -159,7 +159,7 @@ public class Cell : MonoBehaviour
             conflict = GameState.current.Cells[x, Y, z];
             if (conflict != this && conflict.num != 0 && num == conflict.num)
             {
-                Debug.unityLogger.Log($"Conflict detected when checking x={x};z={z}: cell {this} and {conflict}");
+                //Debug.unityLogger.Log($"Conflict detected when checking x={x};z={z}: cell {this} and {conflict}");
                 return false;
             }
         }
@@ -170,7 +170,7 @@ public class Cell : MonoBehaviour
             conflict = GameState.current.Cells[X, y, z];
             if (conflict != this && conflict.num != 0 && num == conflict.num)
             {
-                Debug.unityLogger.Log($"Conflict detected when checking y={y};z={z}: cell {this} and {conflict}");
+                //Debug.unityLogger.Log($"Conflict detected when checking y={y};z={z}: cell {this} and {conflict}");
                 return false;
             }
         }
