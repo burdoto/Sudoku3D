@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GInput : MonoBehaviour
 {
+    public float TouchMultiplier = 0.2f;
+    
     public static Vector2 CursorDelta { get; private set; }
     public static Vector2 CursorPosition { get; private set; }
     public static bool IsTap { get; private set; }
@@ -20,7 +22,7 @@ public class GInput : MonoBehaviour
         if (touches.Length == 2)
         {
             // zoom
-            ZoomAxis = Vector2.Distance(touches[0].position, touches[1].position);
+            ZoomAxis = touches[1].deltaPosition.x * TouchMultiplier;
         }
         else if (touches.Length == 1)
         {
@@ -31,7 +33,7 @@ public class GInput : MonoBehaviour
                 IsHold = touches[0].phase != TouchPhase.Ended && touches[0].phase != TouchPhase.Canceled;
             }
             // move
-            CursorDelta = touches[0].deltaPosition * 0.2f;
+            CursorDelta = touches[0].deltaPosition * TouchMultiplier;
         } else if (touches.Length == 0)
         {
             CursorDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
