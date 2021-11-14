@@ -76,6 +76,9 @@ public class Cell : MonoBehaviour
 
     internal bool IsHovered()
     {
+        if (Numpad.Active)
+            return false;
+        
         var camera = Camera.main;
 
         if (camera == null)

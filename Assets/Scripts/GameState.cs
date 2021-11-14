@@ -80,52 +80,65 @@ public class GameState : MonoBehaviour
         // input
         if (Cell.anySelected && SelectedCell != null)
         {
-            if (Input.GetKeyDown(KeyCode.Keypad0))
+            if (!GInput.IsMobile)
             {
-                SelectedCell.Value = 0;
+                if (Input.GetKeyDown(KeyCode.Keypad0))
+                {
+                    SelectedCell.Value = 0;
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad1))
+                {
+                    SelectedCell.Value = 1;
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad2))
+                {
+                    SelectedCell.Value = 2;
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad3))
+                {
+                    SelectedCell.Value = 3;
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad4))
+                {
+                    SelectedCell.Value = 4;
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad5))
+                {
+                    SelectedCell.Value = 5;
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad6))
+                {
+                    SelectedCell.Value = 6;
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad7))
+                {
+                    SelectedCell.Value = 7;
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad8))
+                {
+                    SelectedCell.Value = 8;
+                }
+                else if (Input.GetKeyDown(KeyCode.Keypad9))
+                {
+                    SelectedCell.Value = 9;
+                }
+                else if (Input.GetKeyDown(KeyCode.KeypadEnter))
+                {
+                    SelectedCell.TryLock();
+                    SelectedCell = null;
+                    Cell.anySelected = false;
+                }
             }
-            else if (Input.GetKeyDown(KeyCode.Keypad1))
+            else Numpad.Read(byt =>
             {
-                SelectedCell.Value = 1;
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad2))
-            {
-                SelectedCell.Value = 2;
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad3))
-            {
-                SelectedCell.Value = 3;
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad4))
-            {
-                SelectedCell.Value = 4;
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad5))
-            {
-                SelectedCell.Value = 5;
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad6))
-            {
-                SelectedCell.Value = 6;
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad7))
-            {
-                SelectedCell.Value = 7;
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad8))
-            {
-                SelectedCell.Value = 8;
-            }
-            else if (Input.GetKeyDown(KeyCode.Keypad9))
-            {
-                SelectedCell.Value = 9;
-            }
-            else if (Input.GetKeyDown(KeyCode.KeypadEnter))
-            {
-                SelectedCell.TryLock();
-                SelectedCell = null;
-                Cell.anySelected = false;
-            }
+                if (byt == -1)
+                {
+                    SelectedCell.TryLock();
+                    SelectedCell = null;
+                    Cell.anySelected = false;
+                }
+                else SelectedCell.Value = byt;
+            });
         }
     }
 
@@ -203,7 +216,7 @@ public class GameState : MonoBehaviour
             if (DebugCheck.PrintPopulate)
                 Debug.unityLogger.Log("PopulateGame Debug", $"Counters: 0={c0} ; 1={c1}");
 
-            cell.State = CellState.Predefined;
+            cell.TryLock(CellState.Predefined);
         }
         
         if (DebugCheck.PrintPopulate)

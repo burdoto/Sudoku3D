@@ -6,6 +6,7 @@ public class GInput : MonoBehaviour
 {
     public float TouchMultiplier = 0.2f;
     
+    public static bool IsMobile { get; private set; }
     public static Vector2 CursorDelta { get; private set; }
     public static Vector2 CursorPosition { get; private set; }
     public static bool IsTap { get; private set; }
@@ -14,6 +15,8 @@ public class GInput : MonoBehaviour
 
     void Update()
     {
+        IsMobile = Input.touchSupported;
+        
         var touches = Input.touches;
         
         if (touches.Length > 0)
