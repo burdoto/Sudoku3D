@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class GameScript : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class GameScript : MonoBehaviour
     public Button NewGameEasyButton;
     public Button NewGameMediumButton;
     public Button NewGameHardButton;
+    public Button SaveGameButton;
     public Slider LayerSlider;
     public Dropdown AxisSelector;
     public Text AxisText;
@@ -20,6 +22,7 @@ public class GameScript : MonoBehaviour
         NewGameEasyButton.onClick.AddListener(() => GameState.current.PopulateGame(Difficulty.Easy));
         NewGameMediumButton.onClick.AddListener(() => GameState.current.PopulateGame(Difficulty.Medium));
         NewGameHardButton.onClick.AddListener(() => GameState.current.PopulateGame(Difficulty.Hard));
+        SaveGameButton.onClick.AddListener(GameState.current.Save);
         LayerSlider.onValueChanged.AddListener(SelectLayer);
         AxisSelector.onValueChanged.AddListener(SelectAxis);
     }
