@@ -154,7 +154,11 @@ public class GameState : MonoBehaviour
 
     internal void PopulateGame(Difficulty difficulty)
     {
+        Debug.unityLogger.Log("PopulateGame started");
+        
+        Debug.unityLogger.Log("PopulateGame calling ResetGame");
         ResetGame();
+        Debug.unityLogger.Log("PopulateGame calling CreateCubes");
         CreateCubes();
         
         // obtained via: 17 * root(3, 17)
@@ -162,15 +166,32 @@ public class GameState : MonoBehaviour
         const int minFields = 44; // min visible fields
         int limit = minFields * (int) difficulty;
         
+        Debug.unityLogger.Log("PopulateGame entering loop 1");
         for (sbyte i = 0; i < 9; i++)
             Cells[i, i, i].Value = (sbyte)(i+1);
+        Debug.unityLogger.Log("PopulateGame entering loop 2");
         for (int i = 0; i < limit; i++)
         {
-            Cell cell = Cells[Random.Range(0, 9), Random.Range(0, 9), Random.Range(0, 9)];
-            do cell.Value = (sbyte)Random.Range(1, 10);
-            while (!cell.CheckValid(out _));
+            int c0 = 100, c1;
+            bool success;
+            Cell cell;
+            Debug.unityLogger.Log("PopulateGame entering loop 3");
+            do
+            {
+                c1 = 9;
+                cell = Cells[Random.Range(0, 9), Random.Range(0, 9), Random.Range(0, 9)];
+                Debug.unityLogger.Log("PopulateGame entering loop 4");
+                do cell.Value = (sbyte)Random.Range(1, 10);
+                while (--c1 > -1 && !cell.CheckValid(out _));
+                success = c1 > -1;
+            } while (!success && --c0 > 0);
+            
+            Debug.unityLogger.Log($"Counters: 0={c0} ; 1={c1}");
+
             cell.State = CellState.Predefined;
         }
+        
+        Debug.unityLogger.Log("PopulateGame finished");
     }
 
     internal void Load()
