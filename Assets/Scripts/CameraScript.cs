@@ -13,9 +13,9 @@ public class CameraScript : MonoBehaviour
     private void Update()
     {
         var transform = this.transform;
-        transform.position += transform.forward * Input.GetAxis("Mouse ScrollWheel") * Multiplier;
+        transform.position += transform.forward * GInput.ZoomAxis * Multiplier;
 
-        if (!Input.GetMouseButton(1))
+        if (!GInput.IsHold)
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
@@ -24,7 +24,7 @@ public class CameraScript : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        transform.RotateAround(Vector3.zero, Vector3.up, Input.GetAxis("Mouse X") * Multiplier);
-        transform.RotateAround(Vector3.zero, transform.right, -Input.GetAxis("Mouse Y") * Multiplier);
+        transform.RotateAround(Vector3.zero, Vector3.up, GInput.CursorDelta.x * Multiplier);
+        transform.RotateAround(Vector3.zero, transform.right, -GInput.CursorDelta.y * Multiplier);
     }
 }

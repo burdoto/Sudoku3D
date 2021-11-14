@@ -64,8 +64,8 @@ public class GameState : MonoBehaviour
     private void Update()
     {
         // selecting hovered cell on click
-        if (!Input.GetMouseButton(1)
-            && Input.GetMouseButtonDown(0)
+        if (!GInput.IsHold
+            && GInput.IsTap
             && HoveredCell != null
             && HoveredCell.IsHovered())
         {

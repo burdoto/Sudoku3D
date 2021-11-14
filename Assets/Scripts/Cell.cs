@@ -58,7 +58,7 @@ public class Cell : MonoBehaviour
             {
                 renderer.material = GameState.current.CorrectMaterial;
             }
-            else if (!Input.GetMouseButton(1) && IsHovered())
+            else if (!GInput.IsHold && IsHovered())
             {
                 renderer.material = GameState.current.HoverMaterial;
                 GameState.current.HoveredCell = this;
@@ -82,7 +82,7 @@ public class Cell : MonoBehaviour
             return false;
 
         // selecting
-        var mouseRay = camera.ScreenPointToRay(Input.mousePosition);
+        var mouseRay = camera.ScreenPointToRay(GInput.CursorPosition);
         return Physics.Raycast(mouseRay, out var hit)
                && hit.collider.gameObject.GetComponent<Cell>() is { } cell
                && cell == this;
