@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[Obsolete]
 public class GInput : MonoBehaviour
 {
     public float TouchMultiplier = 0.2f;

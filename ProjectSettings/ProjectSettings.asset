@@ -702,11 +702,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: Template3D
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: 
+  metroCertificatePath: C:\dev\unity\Sudoku3D\Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: 
-  metroCertificateIssuer: 
-  metroCertificateNotAfter: 0000000000000000
+  metroCertificateSubject: comroid
+  metroCertificateIssuer: comroid
+  metroCertificateNotAfter: 80cc3e3653fcd801
   metroApplicationDescription: Template_3D
   wsaImages: {}
   metroTileShortName: Sudoku3D
