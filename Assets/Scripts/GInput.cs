@@ -47,5 +47,8 @@ public class GInput : MonoBehaviour
             IsHold = Input.GetMouseButton(1);
             ZoomAxis = Input.GetAxis("Mouse ScrollWheel");
         }
+        
+        if (Input.GetKeyDown(KeyCode.Escape)) 
+            Application.Quit();
     }
 }
