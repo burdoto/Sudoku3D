@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class Numpad : MonoBehaviour
 {
     public static Numpad current;
-    public static bool Active => current._handler != null;
+    public static bool Active => current?._handler != null;
     
     public Button ButtonX;
     public Button Button0;
